@@ -1,0 +1,7 @@
+pandas
+numpy
+elasticsearch
+pydantic[dotenv]
+pydantic
+fastapi
+uvicorn
