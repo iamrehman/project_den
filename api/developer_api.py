@@ -1,4 +1,5 @@
 import pandas as pd
+import pickle
 from fastapi import APIRouter, Depends
 from .request import Request
 import config
@@ -14,7 +15,7 @@ router = APIRouter()
     "/get_applicants",
     summary="Get applicants"
 )
-def get_developers(request: Request):
+def get_applicants(request: Request):
     """Hello world api"""
     qg = QueryGenerator(request)
     query = qg.generate_query()
@@ -33,6 +34,26 @@ def get_developers(request: Request):
     # Create a dataframe.
     df = pd.DataFrame(temp)
     df = df.set_index("Applicant_ID")
+
+    if request.rerank_using_ml_model:
+        rerank_using_ml_model(df)
+        # sort based on score
+        df = df.sort_values(by='score', ascending=False)
+
     output = df.to_dict()
     output.pop('Unnamed: 0')
-    return df.to_dict()
+    output.pop("Resume")
+    output.pop("Hired")
+    return output
+
+def rerank_using_ml_model(df):
+
+    filename = 'trained_model.pkl'
+    model = pickle.load(open(filename, 'rb'))
+    features = ['Hourly_Rate', 'Notice_Period', 'Operation_Mode', 'Test_Score',
+                'Interview_Score']
+
+    probability = model.predict_proba(df[features])[:,1]
+
+    # add score to output dataframe
+    df['score'] = probability
