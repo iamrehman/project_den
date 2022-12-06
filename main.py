@@ -4,12 +4,14 @@ from data_accessors.elastic_search import MainDataAccessor
 
 from api.welcome import router as hello_world
 from api.developer_api import router as developer
+from api.model_train import router as train_model
 import config
 
 
 app = FastAPI()
 app.router.include_router(hello_world)
 app.router.include_router(developer)
+app.router.include_router(train_model)
 
 @app.on_event("startup")
 async def on_startup():

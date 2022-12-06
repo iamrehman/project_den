@@ -14,7 +14,7 @@ router = APIRouter()
     "/get_applicants",
     summary="Get applicants"
 )
-def get_developers(request: Request):
+def get_applicants(request: Request):
     """Hello world api"""
     qg = QueryGenerator(request)
     query = qg.generate_query()

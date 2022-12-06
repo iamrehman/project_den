@@ -42,10 +42,7 @@ class MainDataAccessor:
 
         print("Ingesting bulk json object into Elastic Search index:", env.ES_INDEX)
         client.bulk(index=env.ES_INDEX, operations=bulk_json_object)
-        print("Successfully ingested json objects into Elastic Search:", env.ES_INDEX)
-
-        result = client.count(index=env.ES_INDEX)
-        print("Total resumes ingested: ", result.body['count'])
+        print("Successfully resume json objects into Elastic Search:", env.ES_INDEX)
 
         return client
 

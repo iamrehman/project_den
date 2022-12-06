@@ -7,5 +7,11 @@ class Request(BaseModel):
     Hourly_Rate_Max: int
     Operation_Mode: int
     Notice_Period: int
+    rerank_using_ml_model: bool
+
+
+class ModelRequest(BaseModel):
+    model: str
+    parameters: dict
 
 
