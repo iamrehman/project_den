@@ -26,7 +26,7 @@ def train_model(request: ModelRequest):
     model = None
     if request.model == "DecisionTreeClassifier":
         model = DecisionTreeClassifier(**request.parameters)
-    elif request.model == "GradientBoostingClassifier":
+    elif request.model == "RandomForestClassifier":
         model = GradientBoostingClassifier(**request.parameters)
     else:
         model = LogisticRegression(**request.parameters)
@@ -65,4 +65,8 @@ def train_model(request: ModelRequest):
     print('recall: %.3f' % recall)
     print('f1_score: %.3f' % f1)
 
-    print(request.model, request.parameters)
+    return {"accuracy": acc,
+            "precision": precision,
+            "recall": recall,
+            "f1_score": f1
+            }
